@@ -1,0 +1,38 @@
+{
+    "data": [{
+            "version": "1.0.6",
+            "datetime": "最近",
+            "information": "1. 优化加载中的动画效果。\n2. 增加感谢名单，增加历史版本更新记录选项。\n3. 修复页面 UI 展示异常问题。"
+        },
+        {
+            "version": "1.0.5",
+            "datetime": "2019-06-29",
+            "information": "修复 UI 展示异常等bug。"
+        },
+        {
+            "version": "1.0.4",
+            "datetime": "2019-06-27",
+            "information": "增加“关于”页面。"
+        },
+        {
+            "version": "1.0.3",
+            "datetime": "2019-06-23",
+            "information": "修改“我要提供”页面的文案，支持贴子 ID 和链接两种方式。"
+        },
+        {
+            "version": "1.0.2",
+            "datetime": "2019-06-20",
+            "information": "1. 增加搜索框。\n2. 更换 tabBar 图标。"
+        },
+        {
+            "version": "1.0.1",
+            "datetime": "2019-06-18",
+            "information": "修复点击标题未能正常进入详情页的bug。"
+        },
+        {
+            "version": "1.0.0",
+            "datetime": "2019-06-12",
+            "information": "小程序正式版提交。"
+        }
+    ]
+}
