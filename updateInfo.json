@@ -12,6 +12,7 @@
             "version": "1.0.5",
             "datetime": "2019-06-29",
             "information": [
+                "优化用户体验",
                 "修复 UI 展示异常等bug。"
             ]
         },
