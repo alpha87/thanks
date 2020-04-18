@@ -1,18 +1,52 @@
 {
-	"data": [{
-			"name": "小蛋卷",
-			"money": 30
-		}, {
-			"name": "柒月的風",
-			"money": 10
-		},
-		{
-			"name": "英俊侠",
-			"money": 3
-		},
-		{
-			"name": "乔克叔叔",
-			"money": 1
-		}
-	]
+  "data": [
+    {
+      "name": "小蛋卷",
+      "money": 30
+    },
+    {
+      "name": "柒月的風",
+      "money": 10
+    },
+    {
+      "name": "英俊侠",
+      "money": 3
+    },
+    {
+      "name": "乔克叔叔",
+      "money": 1
+    },
+    {
+      "name": "ALITAers",
+      "money": 1
+    },
+    {
+      "name": "无名",
+      "money": 1
+    },
+    {
+      "name": "Ash",
+      "money": 10
+    },
+    {
+      "name": "log",
+      "money": 3
+    },
+    {
+      "name": "？！",
+      "money": 5
+    },
+    {
+      "name": "酸辣土豆丝",
+      "money": 1
+    },
+    {
+      "name": "波澜",
+      "money": 1
+    },
+    {
+      "name": "匿名",
+      "money": 10
+    }
+  ]
 }
