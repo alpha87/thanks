@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title>三晋先锋 学习助手</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/vant@2.12/lib/index.css"/>
+
+    <!-- 引入 Vue 和 Vant 的 JS 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vant@2.12/lib/vant.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leancloud-storage@4.10.0/dist/av-min.js"></script>
+    <style>
+        .card {
+            --kpxc-background-color: #fff;
+            --kpxc-card-background-color: #fff;
+            --kpxc-card-border-color: rgba(0, 0, 0, 0.125);
+            --kpxc-card-header-color: #fafafa;
+            --kpxc-container-border: 1px solid #ccc;
+            --kpxc-input-active-border-color: #2b4d1a;
+            --kpxc-input-background-color: #fff;
+            --kpxc-input-border: 1px solid #2b4d1a;
+            --kpxc-input-border-color: #292a2a;
+            --kpxc-input-main-border-color: rgba(0, 0, 0, 0.125);
+            --kpxc-link-color: #3a8233;
+            --kpxc-link-hover-color: #429f14;
+            --kpxc-sidebar-background-color: #27272a;
+            --kpxc-table-border-color: rgb(222, 226, 230);
+            --kpxc-table-hover-color: #f2f2f2;
+            --kpxc-table-odd-color: #f2f2f2;
+            --kpxc-text-color: #000;
+            color: #323233;
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            margin-top: 50px;
+            margin-left: 10px;
+            margin-right: 10px;
+            padding: 24px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 12px #ebedf0;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 24px;
+        }
+
+        a:link {
+            color: red;
+            text-decoration: underline;
+        }
+
+        a:visited {
+            color: red;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: mediumvioletred;
+            text-decoration: none;
+        }
+
+        a:active {
+            color: darkblue;
+            text-decoration: none;
+
+        }
+    </style>
+</head>
+
+<body>
+<div class="card">
+    <p class="title">三晋先锋 学习助手</p>
+    <p class="title" style="color: red">
+        <small>
+            <a href="https://www.pkfaka.com/liebiao/EFC3B0767C466A3A"
+               target="_blank">购买卡密</a>
+        </small>
+    </p>
+    <div id="app"></div>
+</div>
+<script>
+    new Vue({
+	el: '#app',
+	data: {
+		username: '',
+		password: '',
+		card: ''
+	},
+	methods: {
+		onSubmit: function() {
+			vant.Toast.loading({
+				message: '提交中，请稍后...'
+			});
+			AV.init({
+				appId: "mqURoNLgwYuNjSqBSiPEaFNS-MdYXbMMI",
+				appKey: "MpRpEsX4AlqtRIIuvnJL7L2g"
+			});
+
+			/**
+			 * 1. 判断卡密是否存在
+			 * 2. 判断手机号是否已保存
+			 * 3. 新用户添加到 UserData 中，并自动增加 30 次
+			 * 4. 老用户在之前的基础上增加 30 次
+			 * 5. 卡密已使用，删除
+			 */
+
+			const query = new AV.Query('Token')
+
+			// 卡密正确且未使用
+			query.equalTo('token', this.card).equalTo('used', false);
+			query.first().then((item) => {
+				if (item) {
+					const username_query = new AV.Query('UserData')
+					username_query.equalTo('username', this.username);
+					username_query.first().then((item) => {
+						if (item) {
+							// 手机号存在, 增加剩余次数
+							username_query.first().then((item) => {
+								const username = AV.Object.createWithoutData('UserData',
+									item.id);
+								username.set("num", item.attributes.num + 30)
+								username.save()
+								vant.Toast.clear();
+								vant.Dialog.alert({
+									message: '次数已增加 30 次！',
+								});
+							})
+						} else {
+							// 手机号不存在，添加新用户
+							// 声明 class
+							const AddUser = AV.Object.extend('UserData');
+
+							// 构建对象
+							const add_user = new AddUser();
+
+							// 为属性赋值
+							add_user.set('username', this.username);
+							add_user.set('password', this.password);
+
+							// 将对象保存到云端
+							add_user.save().then((todo) => {
+								vant.Toast.clear();
+								vant.Dialog.alert({
+									message: '添加成功，请等待次日运行！',
+								});
+							}, (error) => {
+								// 异常处理
+								vant.Toast.fail('请联系管理员');
+							});
+						}
+					})
+					// 更新卡密，used 改为 true
+					const card_key = AV.Object.createWithoutData('Token',
+						item.id);
+					card_key.set("used", true)
+					card_key.save()
+				} else {
+					vant.Toast.clear();
+					// 卡密不正确
+					vant.Dialog.alert({
+						message: '卡密不正确',
+					});
+
+				}
+			})
+		}
+	},
+	template: `<van-form @submit="onSubmit">
+                  <van-field
+                  v-model="username"
+                    name="用户名"
+                    label="用户名"
+                    placeholder="用户名"
+                    required
+                  />
+                  <van-field
+                  v-model="password"
+                    type="password"
+                    name="密码"
+                    label="密码"
+                    placeholder="密码"
+                    required
+                  />
+                  <van-field
+                  v-model="card"
+                    name="卡密"
+                    label="卡密"
+                    placeholder="卡密"
+                    required
+                  />
+                  <van-notice-bar
+                    left-icon="info-o"
+                    wrapable
+                    :scrollable="false"
+                    text="每天主动学习，学满 15 分。每日上午 10 点后添加需要次日才能执行。"
+                  />
+                  <div style="margin: 16px;">
+                    <van-button round block type="info" native-type="submit">提交</van-button>
+                  </div>
+                </van-form>`
+});
+Vue.use(vant.Lazyload);
+</script>
+</body>
+</html>
