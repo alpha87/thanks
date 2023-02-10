@@ -1,5 +1,5 @@
 [Script]
-http-response ^https:\/\/ks.wjx.top\/* script-path=wjx.js, requires-body=true, timeout=10, tag=问卷星标记答案
+http-response ^https:\/\/ks.wjx.top\/* script-path=https://raw.githubusercontent.com/alpha87/thanks/master/wjx.js, requires-body=true, timeout=10, tag=问卷星标记答案
 
 [MITM]
 hostname = ks.wjx.top
