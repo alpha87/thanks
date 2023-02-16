@@ -310,7 +310,7 @@ var answer = [
   },
 ];
 
-let new_body = old_body.replace(/国铁集团客规练习题/g, "🖖🏻国铁集团客规练习题");
+let new_body = old_body;
 let old_question_list = old_body.match(
   /<div class='field-label'>(\d+.*?)<span class='req'>/g
 );
